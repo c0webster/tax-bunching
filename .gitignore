@@ -1,0 +1,4 @@
+*.csv
+*.Rproj
+*.png
+.Rhistory.Rproj.user/*
