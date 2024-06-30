@@ -23,6 +23,9 @@ calculate_tax <- function(income) {
       break
     }
   }
+  if (tax < 0) {
+    tax <- 0
+  }
   return(tax)
 }
 

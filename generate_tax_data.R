@@ -16,16 +16,11 @@ calculate_tax <- function(income) {
       break
     }
   }
+  if (tax < 0) {
+    tax <- 0
+  }
   return(tax)
 }
-
-
-
-# 1. Tax without any donations
-tax_no_donation <- calculate_tax(annual_income - standard_deduction) * 40
-
-# 2. Tax with annual donations
-tax_with_annual_donation <- calculate_tax(annual_income - donation_per_year)
 
 
 calc_lifetime_tax_by_bunch <- function(bunch, salary, donation_frac, lifetime_years) {
@@ -50,7 +45,7 @@ calc_lifetime_tax_by_bunch <- function(bunch, salary, donation_frac, lifetime_ye
   return(total_taxes_paid)
 }
 
-full_options <- CJ(bunch = 1:10, salary = seq(.2e5, 3e5, 5e3), donation_frac = seq(0, .5, .05),
+full_options <- CJ(bunch = 1:10, salary = seq(.2e5, 3e5, 5e3), donation_frac = seq(0.05, .5, .05),
                   lifetime_years = 40)
 
 full_results <- pmap_dbl(full_options, calc_lifetime_tax_by_bunch)
