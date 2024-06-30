@@ -3,3 +3,5 @@
 *.png
 .Rhistory.Rproj.user/*
 .Rproj.user/
+.Rhistory
+.gitignore
