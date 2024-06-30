@@ -1,11 +1,18 @@
-library(data.table)
-library(tidyverse)
-library(ggthemes)
-# Define tax brackets and rates for single filers
+# comparing bunching vs not bunching for one level of income and donation amount
+
+
+# CHANGE THESE for comparison
+
+annual_income <- 100000
+donation_frac <- 0.10
+standard_deduction <- 13850
+bunch_years <- 6
+
+
+# set up tax stuff
 brackets <- c(11000, 44725, 95375, 182100, 231250, 578125, Inf)
 rates <- c(0.10, 0.12, 0.22, 0.24, .32, .35, .37)
 
-# Function to calculate tax based on taxable income
 calculate_tax <- function(income) {
   tax <- 0
   for (i in seq_along(brackets)) {
@@ -20,14 +27,7 @@ calculate_tax <- function(income) {
 }
 
 
-
-# 1. Tax without any donations
-tax_no_donation <- calculate_tax(annual_income - standard_deduction) * 40
-
-# 2. Tax with annual donations
-tax_with_annual_donation <- calculate_tax(annual_income - donation_per_year)
-
-
+# function for calculating total tax paid when bunching
 calc_lifetime_tax_by_bunch <- function(bunch, salary, donation_frac, lifetime_years) {
   standard_deduction <- 13850
   total_taxes_paid <- 0
@@ -50,20 +50,12 @@ calc_lifetime_tax_by_bunch <- function(bunch, salary, donation_frac, lifetime_ye
   return(total_taxes_paid)
 }
 
-full_options <- CJ(bunch = 1:10, salary = seq(.2e5, 3e5, 5e3), donation_frac = seq(0, .5, .05),
-                  lifetime_years = 40)
+# 1. Tax with annual donations (not over the standard deduction)
+tax_no_bunch <- calculate_tax(annual_income - standard_deduction)
 
-full_results <- pmap_dbl(full_options, calc_lifetime_tax_by_bunch)
-
-
-result_dt <- copy(full_options)
-result_dt[, taxes_paid := full_results]
-result_dt[, min_taxes := min(taxes_paid), .(salary, donation_frac)]
-result_dt[, optimal := as.numeric(min_taxes == taxes_paid)]
-
-
-reg_result <- lm(taxes_paid ~ salary + donation_frac + factor(bunch), data = result_dt )
-summary(reg_result)
-# target_donation <- .1
-
-fwrite(result_dt, "all_tax_amounts.csv")
+#2. Tax with bunching at optimal levels (drawn from table), divide by number of years
+tax_bunch <- calc_lifetime_tax_by_bunch(bunch_years, annual_income, donation_frac,
+                                        40) / 40
+# these are the per-year values
+tax_no_bunch
+tax_bunch
