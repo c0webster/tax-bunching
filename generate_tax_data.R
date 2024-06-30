@@ -28,7 +28,7 @@ standard_deduction <- 13850
 # calculate_tax(annual_income - standard_deduction)
 
 # 1. Tax without any donations
-tax_no_donation <- calculate_tax(annual_income - standard_deduction)
+tax_no_donation <- calculate_tax(annual_income - standard_deduction) * 40
 
 # 2. Tax with annual donations
 tax_with_annual_donation <- calculate_tax(annual_income - donation_per_year)

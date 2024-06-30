@@ -2,3 +2,4 @@
 *.Rproj
 *.png
 .Rhistory.Rproj.user/*
+.Rproj.user/
