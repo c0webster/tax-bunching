@@ -29,12 +29,21 @@ calc_lifetime_tax_by_bunch <- function(bunch, salary, donation_frac, lifetime_ye
   # total_years_passed <- 0
   money_saved <- 0
   for (i in 1:lifetime_years) {
-    if ((i %% bunch == 0) | (i == lifetime_years)) {
+    # if we're gonna save more than our salary, just donate up to your salary
+
+     if ((i %% bunch == 0) | (i == lifetime_years)) {
       # print(i)
       # donating year
       money_saved <- money_saved + donation_frac * salary
-      total_taxes_paid <- total_taxes_paid + calculate_tax(salary - max(money_saved, standard_deduction))
-      money_saved <- 0
+
+      if (money_saved <= salary) {
+        total_taxes_paid <- total_taxes_paid + calculate_tax(salary - max(money_saved, standard_deduction))
+        money_saved <- 0
+      } else {
+        # don't need to increment taxes
+        money_saved <- money_saved - salary
+      }
+
 
     } else {
       # saving year

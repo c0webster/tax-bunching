@@ -51,4 +51,4 @@ p <- tax_data %>%
 # Assuming your last plot is stored in a variable called 'p'
 # If not, replace 'p' with your ggplot code
 
-ggsave("optimal_bunch_years_chart.png", plot = p, width = 8, height = 6, units = "in", dpi = 120)
+ggsave("optimal_bunch_years_chart.png", plot = p, width = 8, height = 6, units = "in", dpi = 300)

@@ -23,7 +23,7 @@ calculate_tax <- function(income) {
   return(tax)
 }
 
-
+calculate_tax(100000)
 
 # read in optimal data from previous file
 all_tax_amounts <- fread("all_tax_amounts.csv")
@@ -47,5 +47,5 @@ all_with_optimal[, min_taxes := NULL]
 all_with_optimal[, taxes_paid_year := taxes_paid / 40]
 all_with_optimal[, money_saved_year := taxes_no_bunching - taxes_paid_year]
 all_with_optimal[taxes_paid_year < 0]
-
+all_with_optimal
 fwrite(all_with_optimal, "yearly_saved_comparison.csv")
