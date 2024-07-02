@@ -1,1 +1,1 @@
-Here's the blog post accompanying this project: 
+[Here's the blog post accompanying this project.](https://www.christopher-webster.com/p/optimal-tax-bunching-when-saving)
